@@ -5,15 +5,40 @@ from tkinter import filedialog
 import cv2
 from PIL import Image, ImageTk
 
+img_count = 1
+video_count = 1
 
-count = 1
 
-
-def notification():
-    global count
-    name = f"capture-{count}.png"
-    noti = messagebox.showwarning("Image Captured!!", "Image has been captured and saved as {}".format(name))
+def notification(name):
+    noti = messagebox.showwarning("Image Captured!!", "Captured and saved as {}".format(name))
     # noti.after(2000, noti.destroy)  
+
+
+
+def video_capture():
+    global video_count
+    capture = cv2.VideoCapture(0)
+    capture.set(cv2.CAP_PROP_FRAME_WIDTH, 700)
+    capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 700)
+    capture.set(cv2.CAP_PROP_FPS, 30)
+    fourcc = cv2.VideoWriter_fourcc(*'XVID')
+    name = f"video-{video_count}.avi"
+    out = cv2.VideoWriter(name, fourcc, 20.0, (640, 480))
+    while True:
+        
+        ret, frame = capture.read()
+        out.write(frame)
+        
+        cv2.imshow('Recording....', frame)
+        
+        if (cv2.waitKey(30) == 27):
+            capture.release()
+            out.release()
+            cv2.destroyAllWindows()
+            notification(name)
+            video_count += 1
+            break
+
 
 
 def open_camera():
@@ -37,11 +62,11 @@ def open_camera():
     
 
 def capture_image(frame):
-    global count
-    name = f"capture-{count}.png"
+    global img_count
+    name = f"capture-{img_count}.png"
     cv2.imwrite(name, frame)
-    notification()
-    count +=1
+    notification(name)
+    img_count +=1
 
 if __name__ == "__main__":
     
@@ -63,5 +88,7 @@ if __name__ == "__main__":
     camera_button = Button(root, text="Open Camera", command=open_camera)
     camera_button.pack()
     
+    video_btn = Button(root, text="Open Video recoder", command=video_capture)
+    video_btn.pack()
     
     root.mainloop()

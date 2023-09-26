@@ -45,6 +45,7 @@ Run Program
   python app.py
 ```
 
+To run The App directly open the app.exe file.
 
 ## 🔗 Links
 [![Github](https://img.shields.io/badge/Shodhan-1DA1F2?style=for-the-badge&logo=github&logoColor=white)](https://github.com/shodhanshetty14)

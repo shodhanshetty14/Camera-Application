@@ -3,4 +3,6 @@ geek.py
 temp*
 video*
 capture*.png
+build
+dist
 
